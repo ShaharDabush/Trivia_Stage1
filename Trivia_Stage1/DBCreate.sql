@@ -9,8 +9,8 @@ GO
 
 CREATE TABLE [Users](
 	[UserID] int IDENTITY(1,1) NOT NULL,
-	[UserMail] nvarchar(30) unique NOT NULL,
-	[UserName] nvarchar(10) NOT NULL,
+	[UserMail] nvarchar(90)  unique NOT NULL,
+	[UserName] nvarchar(20) NOT NULL,
 	[Password] nvarchar(30) NOT NULL,
 	[AccessId] int NOT null,
 	[Score] int null,
@@ -31,6 +31,11 @@ INSERT INTO [AccessLV] ([Access_level]) VALUES ('user')
 INSERT INTO [AccessLV] ([Access_level]) VALUES ('master')
 INSERT INTO [AccessLV] ([Access_level]) VALUES ('admin')
 GO
+
+INSERT INTO [Users] ([UserID], [UserMail], [UserName], [Password], [AccessId], [Score], [TotalScore], [QuastionsAdded]) VALUES ('yelansimp@gmail.com','yelansimp', 'pass123', 2, 0, 2400, 24)
+
+
+
 
 CREATE TABLE [Questions](
 	[QuestionID] int IDENTITY(1,1) NOT NULL,
@@ -73,4 +78,16 @@ INSERT INTO [QuestionSubjects] ([Subject]) VALUES ('history')
 INSERT INTO [QuestionSubjects] ([Subject]) VALUES ('science')
 INSERT INTO [QuestionSubjects] ([Subject]) VALUES ('high School ramon')
 GO
+
+
+CREATE TABLE [Answers](
+	[AnswerID] int IDENTITY(1,1) NOT NULL,
+	[Answer] nvarchar(100) NOT NULL,
+	[QuestionID] int NOT NULL,
+	[true_false] bit not null,
+ CONSTRAINT PK_Answers PRIMARY KEY (AnswerID),
+
+ CONSTRAINT FK_QuestionID FOREIGN KEY (QuestionID)
+    REFERENCES Questions(QuestionID)
+)
 
