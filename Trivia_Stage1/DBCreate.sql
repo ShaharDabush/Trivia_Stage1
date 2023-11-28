@@ -86,6 +86,8 @@ CREATE TABLE [Questions](
     REFERENCES QuestionStatus(StatusID)
 )
 
+INSERT INTO [Users] ([Question], [UserID], [SubjectID], [StatusID]) VALUES ('When did WW2 start?',1, 3, 1)
+
 
 
 CREATE TABLE [Answers](
