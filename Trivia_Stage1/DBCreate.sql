@@ -88,9 +88,9 @@ CREATE TABLE [Questions](
 
 INSERT INTO [Questions] ([Question], [UserID], [SubjectID], [StatusID]) VALUES ('When did WW2 start?',1, 3, 1)
 INSERT INTO [Questions] ([Question], [UserID], [SubjectID], [StatusID]) VALUES ('how much time did the current prime minister of isreal worked as a prime minister?',2, 2, 2)
-INSERT INTO [Questions] ([Question], [UserID], [SubjectID], [StatusID]) VALUES ('which of those is ?',3, 1, 3)
---INSERT INTO [Questions] ([Question], [UserID], [SubjectID], [StatusID]) VALUES ('When did WW2 start?',4, 4, 1)
---INSERT INTO [Questions] ([Question], [UserID], [SubjectID], [StatusID]) VALUES ('When did WW2 start?',5, 5, 1)
+INSERT INTO [Questions] ([Question], [UserID], [SubjectID], [StatusID]) VALUES ('which of those is not an olympic sport?',3, 1, 3)
+INSERT INTO [Questions] ([Question], [UserID], [SubjectID], [StatusID]) VALUES ('What is the power of gravity? in (m/s^2)',4, 4, 1)
+INSERT INTO [Questions] ([Question], [UserID], [SubjectID], [StatusID]) VALUES ('how many floors are in the school?',5, 5, 1)
 
 
 
@@ -105,3 +105,27 @@ CREATE TABLE [Answers](
     REFERENCES Questions(QuestionID)
 )
 
+INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('September 1, 1939',1,1)
+INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('September 30, 1936',1,2)
+INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('august 1, 1948',1,2)
+INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('may 17, 1939',1,2)
+
+INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('not enough',2,2)
+INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('16 years',2,1)
+INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('15 years',2,2)
+INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('21 years',2,2)
+
+INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('baseball',3,1)
+INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('cricket',3,2)
+INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('golf',3,2)
+INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('football',3,2)
+
+INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('9,8',4,1)
+INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('10',4,2)
+INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('9.98',4,2)
+INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('9.74',4,2)
+
+INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('4',5,1)
+INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('3',5,2)
+INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('3.5',5,2)
+INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('2',5,2)
