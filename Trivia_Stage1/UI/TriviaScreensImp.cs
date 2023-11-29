@@ -1,16 +1,18 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Trivia_Stage1.Models;
 
 namespace Trivia_Stage1.UI
 {
     public class TriviaScreensImp:ITriviaScreens
     {
-
+        public User currentUser;
         //Place here any state you would like to keep during the app life time
         //For example, player login details...
 
@@ -63,6 +65,17 @@ namespace Trivia_Stage1.UI
 
 
                 Console.WriteLine("Connecting to Server...");
+                
+
+                try
+                {
+                    TriviaGameDBContext db = new TriviaGameDBContext();
+                    this.currentUser = db.Signup(email, password, name);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Failed to signup! Email may already exist in DB!");
+                }
                 /* Create instance of Business Logic and call the signup method
                  * For example:
                 try
@@ -94,7 +107,23 @@ namespace Trivia_Stage1.UI
 
         public void ShowPendingQuestions()
         {
-            Console.WriteLine("Not implemented yet! Press any key to continue...");
+            //TriviaGameDBContext db = new TriviaGameDBContext();
+            //List<Question> questions = db.Questions.Include(p => p.Answers).ToList();
+
+            //foreach (Question q in questions)
+            //{
+            //    Console.WriteLine(q.Question1.ToString());
+
+            //    Menu please = new Menu("checking pending complete");
+
+            //    //please.AddItem()
+
+            //    //Console.WriteLine("do you accept the question?");
+
+            //    Console.ReadLine();
+                
+            //}
+            //Console.WriteLine("checking pending complete");
             Console.ReadKey(true);
         }
         public void ShowGame()
