@@ -86,7 +86,11 @@ CREATE TABLE [Questions](
     REFERENCES QuestionStatus(StatusID)
 )
 
-INSERT INTO [Users] ([Question], [UserID], [SubjectID], [StatusID]) VALUES ('When did WW2 start?',1, 3, 1)
+INSERT INTO [Questions] ([Question], [UserID], [SubjectID], [StatusID]) VALUES ('When did WW2 start?',1, 3, 1)
+INSERT INTO [Questions] ([Question], [UserID], [SubjectID], [StatusID]) VALUES ('how much time did the current prime minister of isreal worked as a prime minister?',2, 2, 2)
+INSERT INTO [Questions] ([Question], [UserID], [SubjectID], [StatusID]) VALUES ('which of those is ?',3, 1, 3)
+--INSERT INTO [Questions] ([Question], [UserID], [SubjectID], [StatusID]) VALUES ('When did WW2 start?',4, 4, 1)
+--INSERT INTO [Questions] ([Question], [UserID], [SubjectID], [StatusID]) VALUES ('When did WW2 start?',5, 5, 1)
 
 
 
