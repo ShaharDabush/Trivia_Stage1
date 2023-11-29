@@ -1,0 +1,1 @@
+scaffold-DbContext "Server = (localdb)\LAB2-15\SQLEXPRESS; Database=TriviaGameDB; Trusted_Connection=True; TrustServerCertificate=True;" Microsoft.EntityFrameworkCore.SqlServer -OutPutDir Models -Context TriviaGameDBContext -DataAnnotations -force
