@@ -12,7 +12,7 @@ namespace Trivia_Stage1.UI
 {
     public class TriviaScreensImp:ITriviaScreens
     {
-        public User currentUser;
+        public User CurrentPlayer;
         //Place here any state you would like to keep during the app life time
         //For example, player login details...
 
@@ -20,28 +20,31 @@ namespace Trivia_Stage1.UI
         //Implememnt interface here
         public bool ShowLogin()
         {
-            Console.Write("Please Type your email: ");
-            string email = Console.ReadLine();
-            while (!IsEmailExist(email))
-            {
-                Console.Write("We can't find your email! Please try again:");
-                email = Console.ReadLine();
-            }
+            //try
+            //  {
 
-            Console.Write("Please Type your password: ");
-            string password = Console.ReadLine();
-            while (!ISPasswordExist(password))
-            {
-                Console.Write("this Password does not exist! Please try again: ");
-                password = Console.ReadLine();
-            }
-            Console.WriteLine("Connecting to Server...");
-            Console.ReadKey(true);
-            TriviaGameDBContext db = new TriviaGameDBContext();
-            //User CurrentPlayer = db.User.Where(u => u.email == emailAddress ).;
+            //    Console.Write("Please Type your email and Password: ");
+            //    string email = Console.ReadLine();
+            //    string password = Console.ReadLine();
+            //    TriviaGameDBContext db = new TriviaGameDBContext();
+            //    while (!db.IsEmailExist(email) && !db.ISPasswordExist(password))
+            //    {
+            //        Console.Write("your Email or password are wrong! Please try again:");
+            //        email = Console.ReadLine();
+            //        password = Console.ReadLine();
+            //    }
+            //    Console.WriteLine("Connecting to Server...");
+            //    Console.ReadKey(true);
+
+            //    CurrentPlayer = db.Users.Where(u => u.UserMail == email).FirstOrDefault();
+            //    return true;
+            //}
+            //catch (Exception e)
+            //{
+            //    Console.WriteLine("We are Sorry! You lost connection to the server, Please try Again later..."); 
+            //    return false;
+            //}
             return true;
-
-
         }
         public bool ShowSignup()
         {
@@ -89,7 +92,7 @@ namespace Trivia_Stage1.UI
                 try
                 {
                     TriviaGameDBContext db = new TriviaGameDBContext();
-                    this.currentUser = db.Signup(email, password, name);
+                    //this.CurrentPlayer = db.Signup(email, password, name);
                 }
                 catch (Exception ex)
                 {
@@ -152,7 +155,17 @@ namespace Trivia_Stage1.UI
         }
         public void ShowProfile()
         {
-            Console.WriteLine("Not implemented yet! Press any key to continue...");
+            TriviaGameDBContext db = new TriviaGameDBContext();
+            if(CurrentPlayer == null)
+            {
+                Console.WriteLine("Please Login First...");
+            }
+            else
+            {
+                Console.WriteLine(CurrentPlayer.ToString);
+            }
+           
+             
             Console.ReadKey(true);
         }
 
@@ -181,27 +194,6 @@ namespace Trivia_Stage1.UI
         {
             return name != null && name.Length >= 3;
         }
-        private bool IsEmailExist(string emailAddress)
-        {
-            TriviaGameDBContext db = new TriviaGameDBContext();
-            User? u = db.Users.Where(u => u.UserMail == emailAddress).FirstOrDefault();
-            if (u != null)
-            {
-                return true;
-            }
-            return false;
 
-        }
-        private bool ISPasswordExist(string Password)
-        {
-            TriviaGameDBContext db = new TriviaGameDBContext();
-            User? u = db.Users.Where(u => u.Password == Password).FirstOrDefault();
-            if (u != null)
-            {
-                return true;
-            }
-            return false;
-
-        }
     }
 }
