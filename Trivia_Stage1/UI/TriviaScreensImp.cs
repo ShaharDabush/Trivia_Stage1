@@ -26,6 +26,7 @@ namespace Trivia_Stage1.UI
         }
         public bool ShowSignup()
         {
+            
             //Logout user if anyone is logged in!
             //A reference to the logged in user should be stored as a member variable
             //in this class! Example:
