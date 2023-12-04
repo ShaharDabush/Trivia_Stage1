@@ -20,6 +20,17 @@ namespace Trivia_Stage1.UI
         //Implememnt interface here
         public bool ShowLogin()
         {
+            
+            
+                TriviaGameDBContext db = new TriviaGameDBContext();
+                List<User> users = db.Users.ToList();
+                foreach (User user in users)
+                {
+                    Console.WriteLine(user.UserName);
+                }
+            Console.ReadLine();
+            
+            
             //try
             //  {
 
@@ -44,17 +55,7 @@ namespace Trivia_Stage1.UI
             //    Console.WriteLine("We are Sorry! You lost connection to the server, Please try Again later..."); 
             //    return false;
             //}
-            Console.Write("Please Type your password: ");
-            string password = Console.ReadLine();
-            while (!ISPasswordExist(password))
-            {
-                Console.Write("this Password does not exist! Please try again: ");
-                password = Console.ReadLine();
-            }
-            Console.WriteLine("Connecting to Server...");
-            Console.ReadKey(true);
-            TriviaGameDBContext db = new TriviaGameDBContext();
-            CurrentUser = db.Users.Where(u => u.UserMail == email ).FirstOrDefault();
+
             return true;
         }
         public bool ShowSignup()
@@ -113,6 +114,7 @@ namespace Trivia_Stage1.UI
                         UserName = name,
                     };
                     db.Users.Add(u);
+                    CurrentPlayer = db.Users.Where(u => u.UserMail == email).FirstOrDefault();
                     return true;
                 }
                 catch (Exception ex)
