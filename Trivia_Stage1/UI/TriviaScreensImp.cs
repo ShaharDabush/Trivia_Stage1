@@ -20,9 +20,28 @@ namespace Trivia_Stage1.UI
         //Implememnt interface here
         public bool ShowLogin()
         {
-            Console.WriteLine("Not implemented yet! Press any key to continue...");
+            Console.Write("Please Type your email: ");
+            string email = Console.ReadLine();
+            while (!IsEmailExist(email))
+            {
+                Console.Write("We can't find your email! Please try again:");
+                email = Console.ReadLine();
+            }
+
+            Console.Write("Please Type your password: ");
+            string password = Console.ReadLine();
+            while (!ISPasswordExist(password))
+            {
+                Console.Write("this Password does not exist! Please try again: ");
+                password = Console.ReadLine();
+            }
+            Console.WriteLine("Connecting to Server...");
             Console.ReadKey(true);
+            TriviaGameDBContext db = new TriviaGameDBContext();
+            //User CurrentPlayer = db.User.Where(u => u.email == emailAddress ).;
             return true;
+
+
         }
         public bool ShowSignup()
         {
@@ -163,6 +182,27 @@ namespace Trivia_Stage1.UI
         {
             return name != null && name.Length >= 3;
         }
+        private bool IsEmailExist(string emailAddress)
+        {
+            TriviaGameDBContext db = new TriviaGameDBContext();
+            User? u = db.Users.Where(u => u.UserMail == emailAddress).FirstOrDefault();
+            if (u != null)
+            {
+                return true;
+            }
+            return false;
 
+        }
+        private bool ISPasswordExist(string Password)
+        {
+            TriviaGameDBContext db = new TriviaGameDBContext();
+            User? u = db.Users.Where(u => u.Password == Password).FirstOrDefault();
+            if (u != null)
+            {
+                return true;
+            }
+            return false;
+
+        }
     }
 }
