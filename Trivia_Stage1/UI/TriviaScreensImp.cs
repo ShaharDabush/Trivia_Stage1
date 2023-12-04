@@ -12,7 +12,7 @@ namespace Trivia_Stage1.UI
 {
     public class TriviaScreensImp:ITriviaScreens
     {
-        public User currentUser;
+        public User CurrentPlayer;
         //Place here any state you would like to keep during the app life time
         //For example, player login details...
 
@@ -38,15 +38,16 @@ namespace Trivia_Stage1.UI
             Console.WriteLine("Connecting to Server...");
             Console.ReadKey(true);
             TriviaGameDBContext db = new TriviaGameDBContext();
-            //User CurrentPlayer = db.User.Where(u => u.email == emailAddress ).;
+            CurrentUser = db.Users.Where(u => u.UserMail == email ).FirstOrDefault();
             return true;
 
 
         }
         public bool ShowSignup()
         {
-            
+
             //Logout user if anyone is logged in!
+            CurrentPlayer = null;
             //A reference to the logged in user should be stored as a member variable
             //in this class! Example:
             //this.currentyPLayer == null
@@ -54,7 +55,7 @@ namespace Trivia_Stage1.UI
             //Loop through inputs until a user/player is created or 
             //user choose to go back to menu
             char c = ' ';
-            while (c != 'B' && c != 'b' /*&& this.currentyPLayer == null*/)
+            while (c != 'B' && c != 'b' && CurrentPlayer == null)
             {
                 //Clear screen
                 CleareAndTtile("Signup");
@@ -90,11 +91,20 @@ namespace Trivia_Stage1.UI
                 try
                 {
                     TriviaGameDBContext db = new TriviaGameDBContext();
-                    this.currentUser = db.Signup(email, password, name);
+                    User u = new User
+                    {
+                        UserMail = email,
+                        Password = password,
+                        UserName = name,
+                    };
+                    db.Users.Add(u);
+                    return true;
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine("Failed to signup! Email may already exist in DB!");
+                    
+                    return false;
                 }
                 /* Create instance of Business Logic and call the signup method
                  * For example:
@@ -110,10 +120,7 @@ namespace Trivia_Stage1.UI
                 
                 */
 
-                //Provide a proper message for example:
-                Console.WriteLine("Press (B)ack to go back or any other key to signup again...");
-                //Get another input from user
-                c = Console.ReadKey(true).KeyChar;
+                
             }
             //return true if signup suceeded!
             return (false);
