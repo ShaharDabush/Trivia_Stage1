@@ -29,7 +29,7 @@ public partial class TriviaGameDBContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server = LAB2-14\\SQLEXPRESS; Database=TriviaGameDB; Trusted_Connection=True; TrustServerCertificate=True;");
+        => optionsBuilder.UseSqlServer("Server = LAB2-15\\SQLEXPRESS; Database=TriviaGameDB; Trusted_Connection=True; TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -66,4 +66,27 @@ public partial class TriviaGameDBContext : DbContext
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+    public bool IsEmailExist(string emailAddress)
+    {
+        TriviaGameDBContext db = new TriviaGameDBContext();
+        User? u = db.Users.Where(u => u.UserMail == emailAddress).FirstOrDefault();
+        if (u != null)
+        {
+            return true;
+        }
+        return false;
+
+    }
+    public bool ISPasswordExist(string Password)
+    {
+        TriviaGameDBContext db = new TriviaGameDBContext();
+        User? u = db.Users.Where(u => u.Password == Password).FirstOrDefault();
+        if (u != null)
+        {
+            return true;
+        }
+        return false;
+
+    }
 }
