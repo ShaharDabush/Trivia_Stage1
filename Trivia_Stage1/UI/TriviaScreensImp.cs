@@ -46,17 +46,41 @@ namespace Trivia_Stage1.UI
             //    }
             //    Console.WriteLine("Connecting to Server...");
             //    Console.ReadKey(true);
+                //TriviaGameDBContext db = new TriviaGameDBContext();
+                //List<User> users = db.Users.ToList();
+                //foreach (User user in users)
+                //{
+                //    Console.WriteLine(user.UserName);
+                //}
+                //Console.ReadLine();
 
-            //    CurrentPlayer = db.Users.Where(u => u.UserMail == email).FirstOrDefault();
-            //    return true;
-            //}
-            //catch (Exception e)
-            //{
-            //    Console.WriteLine("We are Sorry! You lost connection to the server, Please try Again later..."); 
-            //    return false;
-            //}
 
-            return true;
+            try
+            {
+
+                Console.Write("Please Type your email and Password: ");
+                string email = Console.ReadLine();
+                string password = Console.ReadLine();
+                TriviaGameDBContext db = new TriviaGameDBContext();
+                while (!db.IsEmailExist(email) && !db.ISPasswordExist(password))
+                {
+                    Console.Write("your Email or password are wrong! Please try again:");
+                    email = Console.ReadLine();
+                    password = Console.ReadLine();
+                }
+                Console.WriteLine("Connecting to Server...");
+                Console.ReadKey(true);
+
+                CurrentPlayer = db.Users.Where(u => u.UserMail == email).FirstOrDefault();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("We are Sorry! You lost connection to the server, Please try Again later...");
+                return false;
+            }
+
+          
         }
         public bool ShowSignup()
         {
@@ -214,7 +238,7 @@ namespace Trivia_Stage1.UI
             }
             else
             {
-                Console.WriteLine(CurrentPlayer.ToString);
+                Console.WriteLine("User Name:");
             }
            
              
