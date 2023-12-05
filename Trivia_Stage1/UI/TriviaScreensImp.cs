@@ -22,13 +22,6 @@ namespace Trivia_Stage1.UI
         {
             
             
-            //    TriviaGameDBContext db = new TriviaGameDBContext();
-            //    List<User> users = db.Users.ToList();
-            //    foreach (User user in users)
-            //    {
-            //        Console.WriteLine(user.UserName);
-            //    }
-            //Console.ReadLine();
             
             
             
@@ -62,7 +55,13 @@ namespace Trivia_Stage1.UI
         }
         public bool ShowSignup()
         {
-
+            TriviaGameDBContext db = new TriviaGameDBContext();
+            List<User> users = db.Users.ToList();
+            foreach (User user in users)
+            {
+                Console.WriteLine(user.UserName);
+            }
+            Console.ReadLine();
             //Logout user if anyone is logged in!
             CurrentPlayer = null;
             //A reference to the logged in user should be stored as a member variable
@@ -107,15 +106,9 @@ namespace Trivia_Stage1.UI
 
                 try
                 {
-                    TriviaGameDBContext db = new TriviaGameDBContext();
-                    //this.CurrentPlayer = db.Signup(email, password, name);
-                    User u = new User
-                    {
-                        UserMail = email,
-                        Password = password,
-                        UserName = name,
-                    };
-                    db.Users.Add(u);
+                    //TriviaGameDBContext db = new TriviaGameDBContext();
+                    db.SignUp(email, password,name);
+                    
                     CurrentPlayer = db.Users.Where(u => u.UserMail == email).FirstOrDefault();
                     return true;
                 }
