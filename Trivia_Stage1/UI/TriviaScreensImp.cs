@@ -22,13 +22,13 @@ namespace Trivia_Stage1.UI
         {
             
             
-                TriviaGameDBContext db = new TriviaGameDBContext();
-                List<User> users = db.Users.ToList();
-                foreach (User user in users)
-                {
-                    Console.WriteLine(user.UserName);
-                }
-            Console.ReadLine();
+            //    TriviaGameDBContext db = new TriviaGameDBContext();
+            //    List<User> users = db.Users.ToList();
+            //    foreach (User user in users)
+            //    {
+            //        Console.WriteLine(user.UserName);
+            //    }
+            //Console.ReadLine();
             
             
             //try
@@ -172,7 +172,37 @@ namespace Trivia_Stage1.UI
         }
         public void ShowGame()
         {
-            Console.WriteLine("Not implemented yet! Press any key to continue...");
+            TriviaGameDBContext db = new TriviaGameDBContext();
+            int QuesCount = db.Questions.Count();
+            Random rnd = new Random();
+            int QuesId = rnd.Next(1, QuesCount + 1);
+            Question? Question = db.Questions.Where(q => q.QuestionId == QuesId).FirstOrDefault();
+            Console.WriteLine(Question.Subject);
+            Console.WriteLine(Question.Question1);
+            List<Answer> answers = db.Answers.Where(a => a.QuestionId == QuesId).ToList();
+            int AnsNum = 1;
+            foreach (Answer answer in answers)
+            {
+                Console.WriteLine(AnsNum+"."+ "  " + answer.Answer1);
+                AnsNum++;
+            }
+            Console.WriteLine("Input the number of the correct answer");
+            AnsNum = int.Parse(Console.ReadLine());
+            while (AnsNum <1 || AnsNum > 4)
+            {
+                Console.WriteLine("Invalid answer");
+                AnsNum = int.Parse(Console.ReadLine());
+            }
+            if (answers[AnsNum-1].TrueFalse == true)
+            {
+                Console.WriteLine("You are correct!!!");
+                CurrentPlayer.Score += 10;
+            }
+            else
+            {
+                Console.WriteLine("nuh uh");
+                CurrentPlayer.Score += -5;
+            }
             Console.ReadKey(true);
         }
         public void ShowProfile()
