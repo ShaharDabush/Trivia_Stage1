@@ -31,29 +31,7 @@ namespace Trivia_Stage1.UI
             //Console.ReadLine();
             
             
-            //try
-            //  {
-
-            //    Console.Write("Please Type your email and Password: ");
-            //    string email = Console.ReadLine();
-            //    string password = Console.ReadLine();
-            //    TriviaGameDBContext db = new TriviaGameDBContext();
-            //    while (!db.IsEmailExist(email) && !db.ISPasswordExist(password))
-            //    {
-            //        Console.Write("your Email or password are wrong! Please try again:");
-            //        email = Console.ReadLine();
-            //        password = Console.ReadLine();
-            //    }
-            //    Console.WriteLine("Connecting to Server...");
-            //    Console.ReadKey(true);
-                //TriviaGameDBContext db = new TriviaGameDBContext();
-                //List<User> users = db.Users.ToList();
-                //foreach (User user in users)
-                //{
-                //    Console.WriteLine(user.UserName);
-                //}
-                //Console.ReadLine();
-
+            
 
             try
             {
