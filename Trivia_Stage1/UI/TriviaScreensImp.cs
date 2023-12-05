@@ -256,10 +256,10 @@ namespace Trivia_Stage1.UI
                         case 1:
                             Console.WriteLine("Enter your new name: ");
                                 string NewName = Console.ReadLine();
-
+                                //CurrentPlayer.UserName = NewName; Exלעשות פעולה ב
                                 //db.Entry(u).State = EntityState.Modified;
                                 //db.SaveChanges();
-                                
+
                                 Exit = false;
                             break;
                         case 2:
