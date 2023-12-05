@@ -349,20 +349,33 @@ namespace Trivia_Stage1.UI
                         case 1:
                             Console.WriteLine("Enter your new name: ");
                                 string NewName = Console.ReadLine();
+                                db.changeName(NewName,CurrentPlayer.UserId);
+                                CurrentPlayer = db.Users.Where(u => u.UserMail == email).FirstOrDefault();
+                                Console.WriteLine("change name completed! new name "+ CurrentPlayer.UserName);
+                                
                                 //CurrentPlayer.UserName = NewName; Exלעשות פעולה ב
                                 //db.Entry(u).State = EntityState.Modified;
                                 //db.SaveChanges();
+                                //did that so no deed now
 
                                 Exit = false;
                             break;
                         case 2:
                                 Console.WriteLine("Enter your new Mail: ");
                                 string NewMail = Console.ReadLine();
+                                db.changeMail(NewMail, CurrentPlayer.UserId);
+                                CurrentPlayer = db.Users.Where(u => u.UserMail == email).FirstOrDefault();
+                                Console.WriteLine("change mail completed! new mail " + CurrentPlayer.UserName);
+
                                 Exit = false;
                                 break;
                         case 3:
                                 Console.WriteLine("Enter your new password: ");
                                 string NewPassword = Console.ReadLine();
+                                db.changePassword(NewPassword, CurrentPlayer.UserId);
+                                CurrentPlayer = db.Users.Where(u => u.UserMail == email).FirstOrDefault();
+                                Console.WriteLine("change password completed! new password " + CurrentPlayer.UserName);
+
                                 Exit = false;
                                 break;
                         case 4:
