@@ -28,5 +28,18 @@ public partial class TriviaGameDBContext : DbContext
         return false;
 
     }
+    public void SignUp(string email, string password, string name)
+    {
+        TriviaGameDBContext db = new TriviaGameDBContext();
+        User u = new User
+        {
+            UserMail = email,
+            Password = password,
+            UserName = name,
+            AccessId = 1,
+        };
+        db.Users.Add(u);
+        db.SaveChanges();
+    }
 }
 
