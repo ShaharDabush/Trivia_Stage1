@@ -2,7 +2,7 @@ USE [master]
 GO
 
 --drop database [TriviaGameDB]
---Go
+
 
 CREATE DATABASE [TriviaGameDB]
 GO
@@ -106,26 +106,26 @@ CREATE TABLE [Answers](
 )
 
 INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('September 1, 1939',1,1)
-INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('September 30, 1936',1,2)
-INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('august 1, 1948',1,2)
-INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('may 17, 1939',1,2)
+INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('September 30, 1936',1,0)
+INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('august 1, 1948',1,0)
+INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('may 17, 1939',1,0)
 
-INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('not enough',2,2)
+INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('not enough',2,0)
 INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('16 years',2,1)
-INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('15 years',2,2)
-INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('21 years',2,2)
+INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('15 years',2,0)
+INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('21 years',2,0)
 
 INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('baseball',3,1)
-INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('cricket',3,2)
-INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('golf',3,2)
-INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('football',3,2)
+INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('cricket',3,0)
+INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('golf',3,0)
+INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('football',3,0)
 
-INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('9,8',4,1)
-INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('10',4,2)
-INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('9.98',4,2)
-INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('9.74',4,2)
+INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('9.8',4,1)
+INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('10',4,0)
+INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('9.98',4,0)
+INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('9.74',4,0)
 
 INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('4',5,1)
-INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('3',5,2)
-INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('3.5',5,2)
-INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('2',5,2)
+INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('3',5,0)
+INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('3.5',5,0)
+INSERT INTO [Answers] ([Answer], [QuestionID], [true_false]) VALUES ('2',5,0)
