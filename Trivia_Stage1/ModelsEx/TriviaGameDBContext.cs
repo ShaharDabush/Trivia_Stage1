@@ -41,5 +41,32 @@ public partial class TriviaGameDBContext : DbContext
         db.Users.Add(u);
         db.SaveChanges();
     }
+
+    public void addquestion(string question, int subject, int userid)
+    {
+        TriviaGameDBContext db = new TriviaGameDBContext();
+        Question q = new Question
+        {
+            Question1 = question,
+            StatusId = 2,
+            SubjectId = subject,
+            UserId = userid
+        };
+        db.Questions.Add(q);
+        db.SaveChanges();
+    }
+
+    public void addanswer(string answer, int questionid, bool trueorfalse)
+    {
+        TriviaGameDBContext db = new TriviaGameDBContext();
+        Answer a = new Answer
+        {
+            Answer1 = answer,
+            QuestionId = questionid,
+            TrueFalse = trueorfalse,
+        };
+        db.Answers.Add(a);
+        db.SaveChanges();
+    }
 }
 

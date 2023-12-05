@@ -157,29 +157,113 @@ namespace Trivia_Stage1.UI
 
         public void ShowAddQuestion()
         {
-            Console.WriteLine("Not implemented yet! Press any key to continue...");
+            TriviaGameDBContext db = new TriviaGameDBContext();
+            int subject = 0;
+            String? question = "";
+            String? Canswer = "";
+            String? Wanswer1 = "";
+            String? Wanswer2 = "";
+            String? Wanswer3 = "";
+            
+            bool inwhile = true;
+            while (inwhile)
+            {
+                Console.WriteLine("on which subject is your question");
+                subject = int.Parse(Console.ReadLine());
+                if (question != null) { inwhile = false; }
+            }
+            while (inwhile) {
+                Console.WriteLine("Please write your question");
+                question = Console.ReadLine();
+                if (question != null) { inwhile = false; }
+            }
+            Console.Clear();
+            inwhile= true;
+            while (inwhile)
+            {
+                Console.WriteLine("Please write the answer");
+                Canswer = Console.ReadLine();
+                if (Canswer != null) { inwhile = false; }
+            }
+            inwhile= true;
+            while (inwhile)
+            {
+                Console.WriteLine("Please write the answer");
+                Wanswer1 = Console.ReadLine();
+                if (Wanswer1 != null) { inwhile = false; }
+            }
+            while (inwhile)
+            {
+                Console.WriteLine("Please write the answer");
+                Wanswer2 = Console.ReadLine();
+                if (Wanswer2 != null) { inwhile = false; }
+            }
+            while (inwhile)
+            {
+                Console.WriteLine("Please write the answer");
+                Wanswer3 = Console.ReadLine();
+                if (Wanswer3 != null) { inwhile = false; }
+            }
+
+            db.addquestion(question,subject,CurrentPlayer.UserId);
+            int qustionid = 0;
+            List<Question> list = db.Questions.Where(p => p.Question1 == question).ToList();
+            foreach (Question q in list)
+            {
+                qustionid = q.QuestionId;
+            }
+
+            db.addanswer(Canswer,qustionid,true);
+            db.addanswer(Wanswer1, qustionid, false);
+            db.addanswer(Wanswer2, qustionid, false);
+            db.addanswer(Wanswer3, qustionid, false);
             Console.ReadKey(true);
         }
 
-        public void ShowPendingQuestions()
+        public void ShowPendingQuestions() // completed exept the comit to database
         {
-            //TriviaGameDBContext db = new TriviaGameDBContext();
-            //List<Question> questions = db.Questions.Include(p => p.Answers).ToList();
+            TriviaGameDBContext db = new TriviaGameDBContext();
+            List<Question> questions = db.Questions.Where(p => p.StatusId == 2).Include(p => p.Answers).ToList();
 
-            //foreach (Question q in questions)
-            //{
-            //    Console.WriteLine(q.Question1.ToString());
+            foreach (Question q in questions)
+            {
+                String[][] answers = new string[3][];
+                int count = 0;
+                foreach (Answer a in q.Answers)
+                {
+                    answers[count][0] = a.Answer1;
+                    answers[count][1] = a.TrueFalse.ToString();
+                    count++;
+                }
 
-            //    Menu please = new Menu("checking pending complete");
-
-            //    //please.AddItem()
-
-            //    //Console.WriteLine("do you accept the question?");
-
-            //    Console.ReadLine();
+                Console.WriteLine($"{q.Question1.ToString()}\n" +
+                    $"1.{answers[0][0]}" + $"{answers[0][1]}" + "\n" +
+                    $"2.{answers[1][0]}" + $"{answers[0][1]}" + "\n" +
+                    $"3.{answers[2][0]}" + $"{answers[0][1]}" + "\n" +
+                    $"4.{answers[3][0]}" + $"{answers[0][1]}" + "\n");
                 
-            //}
-            //Console.WriteLine("checking pending complete");
+                bool inwhile = true;
+                String? answer = "";
+                while (inwhile)
+                {
+                    Console.WriteLine("\\n" + "accept (a) \n deny(d)");
+                    answer = Console.ReadLine();
+                    if (answer == "a" || answer == "d") { inwhile = false; }
+                }
+                if (answer == "a")
+                {
+                    q.StatusId= 1;
+                }
+                else
+                {
+                    q.StatusId = 3;
+                }
+
+                db.Entry(q).State = EntityState.Modified;
+                db.SaveChanges();
+
+            }
+            Console.WriteLine("checking pending complete");
             Console.ReadKey(true);
         }
         public void ShowGame()
