@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Net.Mail;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -20,31 +21,36 @@ namespace Trivia_Stage1.UI
         //Implememnt interface here
         public bool ShowLogin()
         {
-            
-            
-                //TriviaGameDBContext db = new TriviaGameDBContext();
-                //List<User> users = db.Users.ToList();
-                //foreach (User user in users)
-                //{
-                //    Console.WriteLine(user.UserName);
-                //}
-                //Console.ReadLine();
+
+
+            //TriviaGameDBContext db = new TriviaGameDBContext();
+            //List<User> users = db.Users.ToList();
+            //foreach (User user in users)
+            //{
+            //    Console.WriteLine(user.UserName);
+            //}
+            //Console.ReadLine();
 
 
             try
             {
 
-                Console.Write("Please Type your email and Password: ");
+                Console.WriteLine("Please Type your mail and Password: ");
+                Console.Write("Mail: ");
                 string email = Console.ReadLine();
+                Console.Write("Password: ");
                 string password = Console.ReadLine();
                 TriviaGameDBContext db = new TriviaGameDBContext();
                 while (!db.IsEmailExist(email) && !db.ISPasswordExist(password))
                 {
-                    Console.Write("your Email or password are wrong! Please try again:");
+                    Console.WriteLine("your Mail or password are wrong! Please try again:");
+                    Console.Write("Mail: ");
+                    Console.Write("Password: ");
                     email = Console.ReadLine();
                     password = Console.ReadLine();
                 }
                 Console.WriteLine("Connecting to Server...");
+                Console.WriteLine("Click 'Enter' to start");
                 Console.ReadKey(true);
 
                 CurrentPlayer = db.Users.Where(u => u.UserMail == email).FirstOrDefault();
@@ -56,7 +62,7 @@ namespace Trivia_Stage1.UI
                 return false;
             }
 
-          
+
         }
         public bool ShowSignup()
         {
@@ -178,17 +184,68 @@ namespace Trivia_Stage1.UI
         public void ShowProfile()
         {
             TriviaGameDBContext db = new TriviaGameDBContext();
-            if(CurrentPlayer == null)
+            AccessLv PlayerLevel = db.AccessLvs.Where(l => l.AccessId == CurrentPlayer.AccessId).FirstOrDefault();
+            if (CurrentPlayer == null)
             {
                 Console.WriteLine("Please Login First...");
             }
             else
             {
-                Console.WriteLine("User Name:");
+                Console.WriteLine("Hello " + CurrentPlayer.UserName + "!" );
+                Console.WriteLine("---------------------------------------------------------------------");
+                Console.WriteLine("Your Mail is:" + CurrentPlayer.UserMail);
+                Console.WriteLine("Your Password is:" + CurrentPlayer.Password);
+                Console.WriteLine("You are in " + PlayerLevel.AccessLevel + " level");
+                Console.WriteLine("Your score is:" + CurrentPlayer.Password);
+                Console.WriteLine("Your Total score is:" + CurrentPlayer.TotalScore);
+                Console.WriteLine("You added " + CurrentPlayer.QuastionsAdded + " quastions");
+                Console.WriteLine("---------------------------------------------------------------------");
+                Console.WriteLine("If you want to Update your data enter Y if else enter N");
+                string YesOrNo = Console.ReadLine();
+                if(YesOrNo == "Y")
+                {
+                    bool Exit = true;
+                    while (Exit)
+                    { 
+                        Console.WriteLine();
+                    Console.WriteLine("Update:");
+                    Console.WriteLine("1.  Name");
+                    Console.WriteLine("2.  Email");
+                    Console.WriteLine("3.  Password");
+                    Console.WriteLine("4.  Exit");
+                    Console.WriteLine("Choose to update:");
+                    int UpdateChoice = int.Parse(Console.ReadLine());
+                    switch (UpdateChoice)
+                    {
+                        case 1:
+                            Console.WriteLine("Enter your new name: ");
+                                Exit = false;
+                            break;
+                        case 2:
+                                Console.WriteLine("Enter your new Mail: ");
+                                Exit = false;
+                                break;
+                        case 3:
+                                Console.WriteLine("Enter your new password: ");
+                                Exit = false;
+                                break;
+                        case 4:
+                                Exit = false;
+                                break;
+                            default: 
+                                Console.WriteLine("You didnt enter a valied numbers, Please renter a number");
+                                break;
+                    }
+
+                    }
+
+                }
+
+
             }
            
              
-            Console.ReadKey(true);
+            
         }
 
         //Private helper methodfs down here...
