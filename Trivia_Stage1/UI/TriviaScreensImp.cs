@@ -13,7 +13,7 @@ namespace Trivia_Stage1.UI
 {
     public class TriviaScreensImp:ITriviaScreens
     {
-        public User CurrentPlayer;
+        public User CurrentPlayer = null;
         //Place here any state you would like to keep during the app life time
         //For example, player login details...
 
@@ -157,67 +157,76 @@ namespace Trivia_Stage1.UI
 
         public void ShowAddQuestion()
         {
-            TriviaGameDBContext db = new TriviaGameDBContext();
-            int subject = 0;
-            String? question = "";
-            String? Canswer = "";
-            String? Wanswer1 = "";
-            String? Wanswer2 = "";
-            String? Wanswer3 = "";
+            try
+            {
+                TriviaGameDBContext db = new TriviaGameDBContext();
+                int subject = 0;
+                String? question = "";
+                String? Canswer = "";
+                String? Wanswer1 = "";
+                String? Wanswer2 = "";
+                String? Wanswer3 = "";
+
+                bool inwhile = true;
+                while (inwhile)
+                {
+                    Console.WriteLine("on which subject is your question");
+                    subject = int.Parse(Console.ReadLine());
+                    if (question != null) { inwhile = false; }
+                }
+                while (inwhile)
+                {
+                    Console.WriteLine("Please write your question");
+                    question = Console.ReadLine();
+                    if (question != null) { inwhile = false; }
+                }
+                Console.Clear();
+                inwhile = true;
+                while (inwhile)
+                {
+                    Console.WriteLine("Please write the answer");
+                    Canswer = Console.ReadLine();
+                    if (Canswer != null) { inwhile = false; }
+                }
+                inwhile = true;
+                while (inwhile)
+                {
+                    Console.WriteLine("Please write the answer");
+                    Wanswer1 = Console.ReadLine();
+                    if (Wanswer1 != null) { inwhile = false; }
+                }
+                while (inwhile)
+                {
+                    Console.WriteLine("Please write the answer");
+                    Wanswer2 = Console.ReadLine();
+                    if (Wanswer2 != null) { inwhile = false; }
+                }
+                while (inwhile)
+                {
+                    Console.WriteLine("Please write the answer");
+                    Wanswer3 = Console.ReadLine();
+                    if (Wanswer3 != null) { inwhile = false; }
+                }
+
+                db.addquestion(question, subject, CurrentPlayer.UserId);
+                int qustionid = 0;
+                Question que = db.Questions.Where(p => p.Question1 == question).FirstOrDefault();
+                qustionid = que.QuestionId;
+
+
+                db.addanswer(Canswer, qustionid, true);
+                db.addanswer(Wanswer1, qustionid, false);
+                db.addanswer(Wanswer2, qustionid, false);
+                db.addanswer(Wanswer3, qustionid, false);
+                Console.ReadKey(true);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("sorry, an error has accured");
+                Console.WriteLine(e.Message);
+                throw;
+            }
             
-            bool inwhile = true;
-            while (inwhile)
-            {
-                Console.WriteLine("on which subject is your question");
-                subject = int.Parse(Console.ReadLine());
-                if (question != null) { inwhile = false; }
-            }
-            while (inwhile) {
-                Console.WriteLine("Please write your question");
-                question = Console.ReadLine();
-                if (question != null) { inwhile = false; }
-            }
-            Console.Clear();
-            inwhile= true;
-            while (inwhile)
-            {
-                Console.WriteLine("Please write the answer");
-                Canswer = Console.ReadLine();
-                if (Canswer != null) { inwhile = false; }
-            }
-            inwhile= true;
-            while (inwhile)
-            {
-                Console.WriteLine("Please write the answer");
-                Wanswer1 = Console.ReadLine();
-                if (Wanswer1 != null) { inwhile = false; }
-            }
-            while (inwhile)
-            {
-                Console.WriteLine("Please write the answer");
-                Wanswer2 = Console.ReadLine();
-                if (Wanswer2 != null) { inwhile = false; }
-            }
-            while (inwhile)
-            {
-                Console.WriteLine("Please write the answer");
-                Wanswer3 = Console.ReadLine();
-                if (Wanswer3 != null) { inwhile = false; }
-            }
-
-            db.addquestion(question,subject,CurrentPlayer.UserId);
-            int qustionid = 0;
-            List<Question> list = db.Questions.Where(p => p.Question1 == question).ToList();
-            foreach (Question q in list)
-            {
-                qustionid = q.QuestionId;
-            }
-
-            db.addanswer(Canswer,qustionid,true);
-            db.addanswer(Wanswer1, qustionid, false);
-            db.addanswer(Wanswer2, qustionid, false);
-            db.addanswer(Wanswer3, qustionid, false);
-            Console.ReadKey(true);
         }
 
         public void ShowPendingQuestions() // completed exept the comit to database
