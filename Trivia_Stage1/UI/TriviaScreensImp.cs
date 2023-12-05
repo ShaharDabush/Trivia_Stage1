@@ -262,14 +262,21 @@ namespace Trivia_Stage1.UI
                     {
                         case 1:
                             Console.WriteLine("Enter your new name: ");
+                                string NewName = Console.ReadLine();
+
+                                //db.Entry(u).State = EntityState.Modified;
+                                //db.SaveChanges();
+                                
                                 Exit = false;
                             break;
                         case 2:
                                 Console.WriteLine("Enter your new Mail: ");
+                                string NewMail = Console.ReadLine();
                                 Exit = false;
                                 break;
                         case 3:
                                 Console.WriteLine("Enter your new password: ");
+                                string NewPassword = Console.ReadLine();
                                 Exit = false;
                                 break;
                         case 4:
