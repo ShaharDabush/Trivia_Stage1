@@ -240,7 +240,7 @@ namespace Trivia_Stage1.UI
                     Console.WriteLine("question added");
                     if (CurrentPlayer.Score >= 100)
                     {
-                        changeScore(CurrentPlayer.UserMail);
+                        db.changeScore(CurrentPlayer.UserMail);
                     }
                     Console.ReadKey(true);
                 }
