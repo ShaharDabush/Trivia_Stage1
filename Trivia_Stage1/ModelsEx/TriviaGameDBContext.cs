@@ -96,7 +96,14 @@ public partial class TriviaGameDBContext : DbContext
         db.Entry(Updateuser).State = EntityState.Modified;
         db.SaveChanges();
     }
-
+    public void changeScore(string UserMail)
+    {
+        TriviaGameDBContext db = new TriviaGameDBContext();
+        User Updateuser = db.Users.Where(u => u.UserMail == UserMail).FirstOrDefault();
+        Updateuser.Score -= 100;
+        db.Entry(Updateuser).State = EntityState.Modified;
+        db.SaveChanges();
+    }
 
 
 
