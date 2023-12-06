@@ -170,10 +170,24 @@ namespace Trivia_Stage1.UI
                 bool inwhile = true;
                 while (inwhile)
                 {
-                    Console.WriteLine("on which subject is your question");
-                    subject = int.Parse(Console.ReadLine());
-                    if (question != null) { inwhile = false; }
+                    try
+                    {
+                        Console.WriteLine("on which subject is your question?\n" +
+                        "1.sport\n" +
+                        "2.politics\n" +
+                        "3.history\n" +
+                        "4.science\n" +
+                        "5.high School ramon");
+                        subject = int.Parse(Console.ReadLine());
+                        if (subject != null) { inwhile = false; }
+                    }
+                    catch(Exception e)
+                    {
+                        Console.WriteLine("please imput a valid number");
+                    }
+                       
                 }
+                inwhile = true;
                 while (inwhile)
                 {
                     Console.WriteLine("Please write your question");
@@ -191,19 +205,21 @@ namespace Trivia_Stage1.UI
                 inwhile = true;
                 while (inwhile)
                 {
-                    Console.WriteLine("Please write the answer");
+                    Console.WriteLine("Please write a wrong answer");
                     Wanswer1 = Console.ReadLine();
                     if (Wanswer1 != null) { inwhile = false; }
                 }
+                inwhile = true;
                 while (inwhile)
                 {
-                    Console.WriteLine("Please write the answer");
+                    Console.WriteLine("Please write a wrong the answer");
                     Wanswer2 = Console.ReadLine();
                     if (Wanswer2 != null) { inwhile = false; }
                 }
+                inwhile = true;
                 while (inwhile)
                 {
-                    Console.WriteLine("Please write the answer");
+                    Console.WriteLine("Please write a wrong the answer");
                     Wanswer3 = Console.ReadLine();
                     if (Wanswer3 != null) { inwhile = false; }
                 }
@@ -218,13 +234,14 @@ namespace Trivia_Stage1.UI
                 db.addanswer(Wanswer1, qustionid, false);
                 db.addanswer(Wanswer2, qustionid, false);
                 db.addanswer(Wanswer3, qustionid, false);
+                Console.WriteLine("question added");
                 Console.ReadKey(true);
             }
             catch (Exception e)
             {
                 Console.WriteLine("sorry, an error has accured");
                 Console.WriteLine(e.Message);
-                throw;
+                Console.ReadKey(true);
             }
             
         }
@@ -246,10 +263,10 @@ namespace Trivia_Stage1.UI
                 }
 
                 Console.WriteLine($"{q.Question1.ToString()}\n" +
-                    $"1.{answers[0,0]}" + $"{answers[0,1]}" + "\n" +
-                    $"2.{answers[1,0]}" + $"{answers[1,1]}" + "\n" +
-                    $"3.{answers[2,0]}" + $"{answers[2,1]}" + "\n" +
-                    $"4.{answers[3,0]}" + $"{answers[3,1]}" + "\n");
+                    $"1.{answers[0,0]} " + $"{answers[0,1]}" + "\n" +
+                    $"2.{answers[1,0]} " + $"{answers[1,1]}" + "\n" +
+                    $"3.{answers[2,0]} " + $"{answers[2,1]}" + "\n" +
+                    $"4.{answers[3,0]} " + $"{answers[3,1]}" + "\n");
                 
                 bool inwhile = true;
                 String? answer = "";
