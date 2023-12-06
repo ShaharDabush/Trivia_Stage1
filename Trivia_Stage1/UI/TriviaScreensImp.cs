@@ -73,12 +73,6 @@ namespace Trivia_Stage1.UI
         public bool ShowSignup()
         {
             TriviaGameDBContext db = new TriviaGameDBContext();
-            List<User> users = db.Users.ToList();
-            foreach (User user in users)
-            {
-                Console.WriteLine(user.UserName);
-            }
-            Console.ReadLine();
             //Logout user if anyone is logged in!
             CurrentPlayer = null;
             //A reference to the logged in user should be stored as a member variable
@@ -170,10 +164,24 @@ namespace Trivia_Stage1.UI
                 bool inwhile = true;
                 while (inwhile)
                 {
-                    Console.WriteLine("on which subject is your question");
-                    subject = int.Parse(Console.ReadLine());
-                    if (question != null) { inwhile = false; }
+                    try
+                    {
+                        Console.WriteLine("on which subject is your question?\n" +
+                        "1.sport\n" +
+                        "2.politics\n" +
+                        "3.history\n" +
+                        "4.science\n" +
+                        "5.high School ramon");
+                        subject = int.Parse(Console.ReadLine());
+                        if (subject != null) { inwhile = false; }
+                    }
+                    catch(Exception e)
+                    {
+                        Console.WriteLine("please imput a valid number");
+                    }
+                       
                 }
+                inwhile = true;
                 while (inwhile)
                 {
                     Console.WriteLine("Please write your question");
@@ -191,19 +199,21 @@ namespace Trivia_Stage1.UI
                 inwhile = true;
                 while (inwhile)
                 {
-                    Console.WriteLine("Please write the answer");
+                    Console.WriteLine("Please write a wrong answer");
                     Wanswer1 = Console.ReadLine();
                     if (Wanswer1 != null) { inwhile = false; }
                 }
+                inwhile = true;
                 while (inwhile)
                 {
-                    Console.WriteLine("Please write the answer");
+                    Console.WriteLine("Please write a wrong the answer");
                     Wanswer2 = Console.ReadLine();
                     if (Wanswer2 != null) { inwhile = false; }
                 }
+                inwhile = true;
                 while (inwhile)
                 {
-                    Console.WriteLine("Please write the answer");
+                    Console.WriteLine("Please write a wrong the answer");
                     Wanswer3 = Console.ReadLine();
                     if (Wanswer3 != null) { inwhile = false; }
                 }
@@ -218,13 +228,14 @@ namespace Trivia_Stage1.UI
                 db.addanswer(Wanswer1, qustionid, false);
                 db.addanswer(Wanswer2, qustionid, false);
                 db.addanswer(Wanswer3, qustionid, false);
+                Console.WriteLine("question added");
                 Console.ReadKey(true);
             }
             catch (Exception e)
             {
                 Console.WriteLine("sorry, an error has accured");
                 Console.WriteLine(e.Message);
-                throw;
+                Console.ReadKey(true);
             }
             
         }
@@ -236,26 +247,26 @@ namespace Trivia_Stage1.UI
 
             foreach (Question q in questions)
             {
-                String[][] answers = new string[3][];
+                String[,] answers = new string[999,999];
                 int count = 0;
                 foreach (Answer a in q.Answers)
                 {
-                    answers[count][0] = a.Answer1;
-                    answers[count][1] = a.TrueFalse.ToString();
+                    answers[count,0] = a.Answer1;
+                    answers[count,1] = a.TrueFalse.ToString();
                     count++;
                 }
 
                 Console.WriteLine($"{q.Question1.ToString()}\n" +
-                    $"1.{answers[0][0]}" + $"{answers[0][1]}" + "\n" +
-                    $"2.{answers[1][0]}" + $"{answers[0][1]}" + "\n" +
-                    $"3.{answers[2][0]}" + $"{answers[0][1]}" + "\n" +
-                    $"4.{answers[3][0]}" + $"{answers[0][1]}" + "\n");
+                    $"1.{answers[0,0]} " + $"{answers[0,1]}" + "\n" +
+                    $"2.{answers[1,0]} " + $"{answers[1,1]}" + "\n" +
+                    $"3.{answers[2,0]} " + $"{answers[2,1]}" + "\n" +
+                    $"4.{answers[3,0]} " + $"{answers[3,1]}" + "\n");
                 
                 bool inwhile = true;
                 String? answer = "";
                 while (inwhile)
                 {
-                    Console.WriteLine("\\n" + "accept (a) \n deny(d)");
+                    Console.WriteLine("\n" + "accept (a) \ndeny(d)");
                     answer = Console.ReadLine();
                     if (answer == "a" || answer == "d") { inwhile = false; }
                 }
@@ -323,12 +334,12 @@ namespace Trivia_Stage1.UI
             {
                 Console.WriteLine("Hello " + CurrentPlayer.UserName + "!" );
                 Console.WriteLine("---------------------------------------------------------------------");
-                Console.WriteLine("Your Mail is:" + CurrentPlayer.UserMail);
-                Console.WriteLine("Your Password is:" + CurrentPlayer.Password);
+                Console.WriteLine("Your Mail is: " + CurrentPlayer.UserMail);
+                Console.WriteLine("Your Password is: " + CurrentPlayer.Password);
                 Console.WriteLine("You are in " + PlayerLevel.AccessLevel + " level");
-                Console.WriteLine("Your score is:" + CurrentPlayer.Password);
-                Console.WriteLine("Your Total score is:" + CurrentPlayer.TotalScore);
-                Console.WriteLine("You added " + CurrentPlayer.QuastionsAdded + " quastions");
+                Console.WriteLine("Your score is: " + CurrentPlayer.Password);
+                Console.WriteLine("Your Total score is: " + CurrentPlayer.TotalScore);
+                Console.WriteLine("You added " + CurrentPlayer.QuastionsAdded + " questions");
                 Console.WriteLine("---------------------------------------------------------------------");
                 Console.WriteLine("If you want to Update your data enter Y if else enter N");
                 string YesOrNo = Console.ReadLine();

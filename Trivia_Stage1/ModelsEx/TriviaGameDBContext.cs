@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace Trivia_Stage1.Models;
 
@@ -37,6 +38,8 @@ public partial class TriviaGameDBContext : DbContext
             Password = password,
             UserName = name,
             AccessId = 1,
+            Score = 0,
+            TotalScore = 0
         };
         db.Users.Add(u);
         db.SaveChanges();
