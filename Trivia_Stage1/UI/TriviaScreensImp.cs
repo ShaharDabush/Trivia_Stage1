@@ -236,26 +236,26 @@ namespace Trivia_Stage1.UI
 
             foreach (Question q in questions)
             {
-                String[][] answers = new string[3][];
+                String[,] answers = new string[999,999];
                 int count = 0;
                 foreach (Answer a in q.Answers)
                 {
-                    answers[count][0] = a.Answer1;
-                    answers[count][1] = a.TrueFalse.ToString();
+                    answers[count,0] = a.Answer1;
+                    answers[count,1] = a.TrueFalse.ToString();
                     count++;
                 }
 
                 Console.WriteLine($"{q.Question1.ToString()}\n" +
-                    $"1.{answers[0][0]}" + $"{answers[0][1]}" + "\n" +
-                    $"2.{answers[1][0]}" + $"{answers[0][1]}" + "\n" +
-                    $"3.{answers[2][0]}" + $"{answers[0][1]}" + "\n" +
-                    $"4.{answers[3][0]}" + $"{answers[0][1]}" + "\n");
+                    $"1.{answers[0,0]}" + $"{answers[0,1]}" + "\n" +
+                    $"2.{answers[1,0]}" + $"{answers[1,1]}" + "\n" +
+                    $"3.{answers[2,0]}" + $"{answers[2,1]}" + "\n" +
+                    $"4.{answers[3,0]}" + $"{answers[3,1]}" + "\n");
                 
                 bool inwhile = true;
                 String? answer = "";
                 while (inwhile)
                 {
-                    Console.WriteLine("\\n" + "accept (a) \n deny(d)");
+                    Console.WriteLine("\n" + "accept (a) \ndeny(d)");
                     answer = Console.ReadLine();
                     if (answer == "a" || answer == "d") { inwhile = false; }
                 }
@@ -350,7 +350,7 @@ namespace Trivia_Stage1.UI
                             Console.WriteLine("Enter your new name: ");
                                 string NewName = Console.ReadLine();
                                 db.changeName(NewName,CurrentPlayer.UserId);
-                                CurrentPlayer = db.Users.Where(u => u.UserMail == email).FirstOrDefault();
+                                CurrentPlayer = db.Users.Where(u => u.UserId == CurrentPlayer.UserId).FirstOrDefault();
                                 Console.WriteLine("change name completed! new name "+ CurrentPlayer.UserName);
                                 
                                 //CurrentPlayer.UserName = NewName; Exלעשות פעולה ב
@@ -364,7 +364,7 @@ namespace Trivia_Stage1.UI
                                 Console.WriteLine("Enter your new Mail: ");
                                 string NewMail = Console.ReadLine();
                                 db.changeMail(NewMail, CurrentPlayer.UserId);
-                                CurrentPlayer = db.Users.Where(u => u.UserMail == email).FirstOrDefault();
+                                CurrentPlayer = db.Users.Where(u => u.UserId == CurrentPlayer.UserId).FirstOrDefault();
                                 Console.WriteLine("change mail completed! new mail " + CurrentPlayer.UserName);
 
                                 Exit = false;
@@ -373,7 +373,7 @@ namespace Trivia_Stage1.UI
                                 Console.WriteLine("Enter your new password: ");
                                 string NewPassword = Console.ReadLine();
                                 db.changePassword(NewPassword, CurrentPlayer.UserId);
-                                CurrentPlayer = db.Users.Where(u => u.UserMail == email).FirstOrDefault();
+                                CurrentPlayer = db.Users.Where(u => u.UserId == CurrentPlayer.UserId).FirstOrDefault();
                                 Console.WriteLine("change password completed! new password " + CurrentPlayer.UserName);
 
                                 Exit = false;
