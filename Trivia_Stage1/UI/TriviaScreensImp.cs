@@ -337,7 +337,7 @@ namespace Trivia_Stage1.UI
                 Console.WriteLine("Your Mail is: " + CurrentPlayer.UserMail);
                 Console.WriteLine("Your Password is: " + CurrentPlayer.Password);
                 Console.WriteLine("You are in " + PlayerLevel.AccessLevel + " level");
-                Console.WriteLine("Your score is: " + CurrentPlayer.Password);
+                Console.WriteLine("Your score is: " + CurrentPlayer.Score);
                 Console.WriteLine("Your Total score is: " + CurrentPlayer.TotalScore);
                 Console.WriteLine("You added " + CurrentPlayer.QuastionsAdded + " questions");
                 Console.WriteLine("---------------------------------------------------------------------");
