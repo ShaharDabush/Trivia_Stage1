@@ -73,12 +73,6 @@ namespace Trivia_Stage1.UI
         public bool ShowSignup()
         {
             TriviaGameDBContext db = new TriviaGameDBContext();
-            List<User> users = db.Users.ToList();
-            foreach (User user in users)
-            {
-                Console.WriteLine(user.UserName);
-            }
-            Console.ReadLine();
             //Logout user if anyone is logged in!
             CurrentPlayer = null;
             //A reference to the logged in user should be stored as a member variable
@@ -339,12 +333,12 @@ namespace Trivia_Stage1.UI
             {
                 Console.WriteLine("Hello " + CurrentPlayer.UserName + "!" );
                 Console.WriteLine("---------------------------------------------------------------------");
-                Console.WriteLine("Your Mail is:" + CurrentPlayer.UserMail);
-                Console.WriteLine("Your Password is:" + CurrentPlayer.Password);
+                Console.WriteLine("Your Mail is: " + CurrentPlayer.UserMail);
+                Console.WriteLine("Your Password is: " + CurrentPlayer.Password);
                 Console.WriteLine("You are in " + PlayerLevel.AccessLevel + " level");
-                Console.WriteLine("Your score is:" + CurrentPlayer.Password);
-                Console.WriteLine("Your Total score is:" + CurrentPlayer.TotalScore);
-                Console.WriteLine("You added " + CurrentPlayer.QuastionsAdded + " quastions");
+                Console.WriteLine("Your score is: " + CurrentPlayer.Password);
+                Console.WriteLine("Your Total score is: " + CurrentPlayer.TotalScore);
+                Console.WriteLine("You added " + CurrentPlayer.QuastionsAdded + " questions");
                 Console.WriteLine("---------------------------------------------------------------------");
                 Console.WriteLine("If you want to Update your data enter Y if else enter N");
                 string YesOrNo = Console.ReadLine();
