@@ -21,11 +21,11 @@ namespace Trivia_Stage1.UI
         //Implememnt interface here
         public bool ShowLogin()
         {
-            
-            
-            
-            
-            
+
+
+
+
+
 
 
 
@@ -47,19 +47,19 @@ namespace Trivia_Stage1.UI
                 Console.Write("Password: ");
                 string password = Console.ReadLine();
                 TriviaGameDBContext db = new TriviaGameDBContext();
-                while (!db.IsEmailExist(email) && !db.ISPasswordExist(password))
+                while (!db.IsEmailExist(email) || !db.ISPasswordExist(password))
                 {
                     Console.WriteLine("your Mail or password are wrong! Please try again:");
                     Console.Write("Mail: ");
-                    Console.Write("Password: ");
                     email = Console.ReadLine();
+                    Console.Write("Password: ");
                     password = Console.ReadLine();
                 }
                 Console.WriteLine("Connecting to Server...");
                 Console.WriteLine("Click 'Enter' to start");
                 Console.ReadKey(true);
 
-                CurrentPlayer = db.Users.Where(u => u.UserMail == email).FirstOrDefault();
+                CurrentPlayer = db.Users.Where(u => u.UserMail == email && u.Password == password).FirstOrDefault();
                 return true;
             }
             catch (Exception e)
@@ -312,6 +312,7 @@ namespace Trivia_Stage1.UI
         }
         public void ShowProfile()
         {
+            Console.Clear();
             TriviaGameDBContext db = new TriviaGameDBContext();
             AccessLv PlayerLevel = db.AccessLvs.Where(l => l.AccessId == CurrentPlayer.AccessId).FirstOrDefault();
             if (CurrentPlayer == null)
@@ -349,33 +350,46 @@ namespace Trivia_Stage1.UI
                         case 1:
                             Console.WriteLine("Enter your new name: ");
                                 string NewName = Console.ReadLine();
-                                db.changeName(NewName,CurrentPlayer.UserId);
-                                CurrentPlayer = db.Users.Where(u => u.UserMail == email).FirstOrDefault();
-                                Console.WriteLine("change name completed! new name "+ CurrentPlayer.UserName);
-                                
-                                //CurrentPlayer.UserName = NewName; Exלעשות פעולה ב
-                                //db.Entry(u).State = EntityState.Modified;
-                                //db.SaveChanges();
-                                //did that so no deed now
+                                while (!IsNameValid(NewName))
+                                {
+                                    Console.Write("name must be at least 3 characters! Please try again: ");
+                                     NewName = Console.ReadLine();
+                                }
+                                db.changeName(NewName, CurrentPlayer.UserMail);
+                                CurrentPlayer = db.Users.Where(u => u.UserMail == CurrentPlayer.UserMail).FirstOrDefault();
+                                Console.WriteLine("change name completed! new name " + CurrentPlayer.UserName);
 
+                                ShowProfile();
                                 Exit = false;
-                            break;
+                                break;
                         case 2:
                                 Console.WriteLine("Enter your new Mail: ");
                                 string NewMail = Console.ReadLine();
-                                db.changeMail(NewMail, CurrentPlayer.UserId);
-                                CurrentPlayer = db.Users.Where(u => u.UserMail == email).FirstOrDefault();
-                                Console.WriteLine("change mail completed! new mail " + CurrentPlayer.UserName);
+                                while (!IsEmailValid(NewMail))
+                                {
+                                    Console.Write("Bad Email Format! Please try again:");
+                                    NewMail = Console.ReadLine();
+                                }
+                                db.changeMail(NewMail, CurrentPlayer.UserMail);
+                                CurrentPlayer = db.Users.Where(u => u.UserMail == NewMail).FirstOrDefault();
+                                Console.WriteLine("change mail completed! new mail " + CurrentPlayer.UserMail);
 
+                                ShowProfile();
                                 Exit = false;
                                 break;
                         case 3:
                                 Console.WriteLine("Enter your new password: ");
                                 string NewPassword = Console.ReadLine();
-                                db.changePassword(NewPassword, CurrentPlayer.UserId);
-                                CurrentPlayer = db.Users.Where(u => u.UserMail == email).FirstOrDefault();
-                                Console.WriteLine("change password completed! new password " + CurrentPlayer.UserName);
+                                while (!IsPasswordValid(NewPassword))
+                                {
+                                    Console.Write("password must be at least 4 characters! Please try again: ");
+                                    NewPassword = Console.ReadLine();
+                                }
+                                db.changePassword(NewPassword, CurrentPlayer.UserMail);
+                                CurrentPlayer = db.Users.Where(u => u.UserMail == CurrentPlayer.UserMail).FirstOrDefault();
+                                Console.WriteLine("change password completed! new password " + CurrentPlayer.UserMail);
 
+                                ShowProfile();
                                 Exit = false;
                                 break;
                         case 4:

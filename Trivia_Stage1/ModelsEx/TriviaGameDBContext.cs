@@ -69,25 +69,28 @@ public partial class TriviaGameDBContext : DbContext
         db.SaveChanges();
     }
 
-    public void changeName(string newname, int userId)
+    public void changeName(string newname , string UserMail)
     {
         TriviaGameDBContext db = new TriviaGameDBContext();
-        User Updateuser = db.Users.Where(u => u.UserId == userId).FirstOrDefault();
+        User Updateuser = db.Users.Where(u => u.UserMail == UserMail).FirstOrDefault();
         Updateuser.UserName = newname;
+        db.Entry(Updateuser).State = EntityState.Modified;
         db.SaveChanges();
     }
-    public void changeMail(string newmail, int userId)
+    public void changeMail(string newmail ,string UserMail)
     {
         TriviaGameDBContext db = new TriviaGameDBContext();
-        User Updateuser = db.Users.Where(u => u.UserId == userId).FirstOrDefault();
+        User Updateuser = db.Users.Where(u => u.UserMail ==  UserMail).FirstOrDefault();
         Updateuser.UserMail = newmail;
+        db.Entry(Updateuser).State = EntityState.Modified;
         db.SaveChanges();
     }
-    public void changePassword(string newpassword, int userId)
+    public void changePassword(string newpassword , string UserMail)
     {
         TriviaGameDBContext db = new TriviaGameDBContext();
-        User Updateuser = db.Users.Where(u => u.UserId == userId).FirstOrDefault();
+        User Updateuser = db.Users.Where(u => u.UserMail == UserMail).FirstOrDefault();
         Updateuser.Password = newpassword;
+        db.Entry(Updateuser).State = EntityState.Modified;
         db.SaveChanges();
     }
 
