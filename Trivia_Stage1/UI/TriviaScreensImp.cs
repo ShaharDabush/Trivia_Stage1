@@ -291,35 +291,65 @@ namespace Trivia_Stage1.UI
             TriviaGameDBContext db = new TriviaGameDBContext();
             int QuesCount = db.Questions.Count();
             Random rnd = new Random();
-            int QuesId = rnd.Next(1, QuesCount + 1);
-            Question? Question = db.Questions.Where(q => q.QuestionId == QuesId).FirstOrDefault();
-            Console.WriteLine(Question.Subject);
-            Console.WriteLine(Question.Question1);
-            List<Answer> answers = db.Answers.Where(a => a.QuestionId == QuesId).ToList();
-            int AnsNum = 1;
-            foreach (Answer answer in answers)
+            string c = " ";
+            while (c != "e" && c != "E")
             {
-                Console.WriteLine(AnsNum+"."+ "  " + answer.Answer1);
-                AnsNum++;
-            }
-            Console.WriteLine("Input the number of the correct answer");
-            AnsNum = int.Parse(Console.ReadLine());
-            while (AnsNum <1 || AnsNum > 4)
-            {
-                Console.WriteLine("Invalid answer");
+                int QuesId = rnd.Next(1, QuesCount + 1);
+                Question? Question = db.Questions.Where(q => q.QuestionId == QuesId).FirstOrDefault();
+                Console.WriteLine("Question subject is: " + Question.Subject);
+                Console.WriteLine(Question.Question1);
+                List<Answer> answers = db.Answers.Where(a => a.QuestionId == QuesId).ToList();
+                int AnsNum = 1;
+                foreach (Answer answer in answers)
+                {
+                    Console.WriteLine(AnsNum + "." + "  " + answer.Answer1);
+                    AnsNum++;
+                }
+                Console.WriteLine("Input the number of the correct answer");
                 AnsNum = int.Parse(Console.ReadLine());
+                while (AnsNum < 1 || AnsNum > 4)
+                {
+                    Console.WriteLine("Invalid answer");
+                    AnsNum = int.Parse(Console.ReadLine());
+                }
+                if (answers[AnsNum - 1].TrueFalse == true)
+                {
+                    Console.WriteLine("You are correct!!!");
+                    if (CurrentPlayer.Score > 90)
+                    {
+                        CurrentPlayer.Score = 100;
+                        Console.WriteLine("Your score is: " + CurrentPlayer.Score);
+                        Console.WriteLine("You can now add a question");
+                    }
+
+                    else
+                    {
+                        CurrentPlayer.Score += 10;
+                        Console.WriteLine("Your score is: " + CurrentPlayer.Score);
+                    }
+
+                }
+                else
+                {
+                    Console.WriteLine("Incorrect answer!");
+                    if (CurrentPlayer.Score < 5)
+                    {
+                        CurrentPlayer.Score = 0;
+                        Console.WriteLine("Your score is: " + CurrentPlayer.Score);
+                    }
+
+                    else
+                    {
+                        CurrentPlayer.Score += -5;
+                        Console.WriteLine("Your score is: " + CurrentPlayer.Score);
+                    }
+
+                }
+                Console.WriteLine("Input e to exit, input anything else to continue");
+                c = Console.ReadLine();
             }
-            if (answers[AnsNum-1].TrueFalse == true)
-            {
-                Console.WriteLine("You are correct!!!");
-                CurrentPlayer.Score += 10;
-            }
-            else
-            {
-                Console.WriteLine("nuh uh");
-                CurrentPlayer.Score += -5;
-            }
-            Console.ReadKey(true);
+           
+            
         }
         public void ShowProfile()
         {
@@ -337,7 +367,7 @@ namespace Trivia_Stage1.UI
                 Console.WriteLine("Your Mail is: " + CurrentPlayer.UserMail);
                 Console.WriteLine("Your Password is: " + CurrentPlayer.Password);
                 Console.WriteLine("You are in " + PlayerLevel.AccessLevel + " level");
-                Console.WriteLine("Your score is: " + CurrentPlayer.Password);
+                Console.WriteLine("Your score is: " + CurrentPlayer.Score);
                 Console.WriteLine("Your Total score is: " + CurrentPlayer.TotalScore);
                 Console.WriteLine("You added " + CurrentPlayer.QuastionsAdded + " questions");
                 Console.WriteLine("---------------------------------------------------------------------");
