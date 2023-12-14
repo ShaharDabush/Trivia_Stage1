@@ -312,7 +312,30 @@ namespace Trivia_Stage1.UI
             
         }
         public void ShowGame()
-        {
+            
+            
+            
+            
+            
+            
+            // for yardem (to fix)
+        {   //make it so a question cant appear multipule times per attempt
+            //make it so after you get to 100 points something happends (prompt to add question)
+            //clear the console after each question so it doesent look like shit
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             TriviaGameDBContext db = new TriviaGameDBContext();
             int QuesCount = db.Questions.Count();
             Random rnd = new Random();
