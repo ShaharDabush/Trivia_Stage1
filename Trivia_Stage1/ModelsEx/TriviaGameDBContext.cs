@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Transactions;
 using Microsoft.EntityFrameworkCore;
 using static System.Formats.Asn1.AsnWriter;
 
@@ -7,7 +8,7 @@ namespace Trivia_Stage1.Models;
 
 public partial class TriviaGameDBContext : DbContext
 {
-    public bool IsEmailExist(string emailAddress)
+    public bool IsEmailExist(string emailAddress)//checks if the mail exists in the database
     {
         TriviaGameDBContext db = new TriviaGameDBContext();
         User? u = db.Users.Where(u => u.UserMail == emailAddress).FirstOrDefault();
@@ -18,7 +19,7 @@ public partial class TriviaGameDBContext : DbContext
         return false;
 
     }
-    public bool ISPasswordExist(string Password)
+    public bool ISPasswordExist(string Password)//checks if the password exists in the database
     {
         TriviaGameDBContext db = new TriviaGameDBContext();
         User? u = db.Users.Where(u => u.Password == Password).FirstOrDefault();
@@ -29,7 +30,7 @@ public partial class TriviaGameDBContext : DbContext
         return false;
 
     }
-    public void SignUp(string email, string password, string name)
+    public void SignUp(string email, string password, string name)//create a new user and adds it to the database
     {
         TriviaGameDBContext db = new TriviaGameDBContext();
         User u = new User
@@ -42,10 +43,10 @@ public partial class TriviaGameDBContext : DbContext
             TotalScore = 0
         };
         db.Users.Add(u);
-        db.SaveChanges();
+        db.SaveChanges();//commit changes to the database
     }
 
-    public void addquestion(string question, int subject, int userid)
+    public void addquestion(string question, int subject, int userid)//adds a question to the database
     {
         TriviaGameDBContext db = new TriviaGameDBContext();
         Question q = new Question
@@ -56,10 +57,10 @@ public partial class TriviaGameDBContext : DbContext
             UserId = userid
         };
         db.Questions.Add(q);
-        db.SaveChanges();
+        db.SaveChanges();//commit changes to the database
     }
 
-    public void addanswer(string answer, int questionid, bool trueorfalse)
+    public void addanswer(string answer, int questionid, bool trueorfalse)//adds an answer to the database
     {
         TriviaGameDBContext db = new TriviaGameDBContext();
         Answer a = new Answer
@@ -69,70 +70,70 @@ public partial class TriviaGameDBContext : DbContext
             TrueFalse = trueorfalse,
         };
         db.Answers.Add(a);
-        db.SaveChanges();
+        db.SaveChanges();//commit changes to the database
     }
 
-    public void changeName(string newname , string UserMail)
+    public void changeName(string newname , string UserMail)//change user name of user in the database
     {
         TriviaGameDBContext db = new TriviaGameDBContext();
         User Updateuser = db.Users.Where(u => u.UserMail == UserMail).FirstOrDefault();
         Updateuser.UserName = newname;
-        db.Entry(Updateuser).State = EntityState.Modified;
-        db.SaveChanges();
+        db.Entry(Updateuser).State = EntityState.Modified;//modify user in database
+        db.SaveChanges();//commit changes to the database
     }
-    public void changeMail(string newmail ,string UserMail)
+    public void changeMail(string newmail ,string UserMail)//change user mail of user in the database
     {
         TriviaGameDBContext db = new TriviaGameDBContext();
         User Updateuser = db.Users.Where(u => u.UserMail ==  UserMail).FirstOrDefault();
         Updateuser.UserMail = newmail;
-        db.Entry(Updateuser).State = EntityState.Modified;
-        db.SaveChanges();
+        db.Entry(Updateuser).State = EntityState.Modified;//modify user in database
+        db.SaveChanges();//commit changes to the database
     }
-    public void changePassword(string newpassword , string UserMail)
+    public void changePassword(string newpassword , string UserMail)//changes user password in the database
     {
         TriviaGameDBContext db = new TriviaGameDBContext();
         User Updateuser = db.Users.Where(u => u.UserMail == UserMail).FirstOrDefault();
         Updateuser.Password = newpassword;
-        db.Entry(Updateuser).State = EntityState.Modified;
-        db.SaveChanges();
+        db.Entry(Updateuser).State = EntityState.Modified;//modify user in the database
+        db.SaveChanges();//commit changes to the database
     }
-    public void changeScore(string UserMail)
+    public void changeScore(string UserMail)//on adding question detract points fron the user
     {
         TriviaGameDBContext db = new TriviaGameDBContext();
         User Updateuser = db.Users.Where(u => u.UserMail == UserMail).FirstOrDefault();
         Updateuser.Score -= 100;
-        db.Entry(Updateuser).State = EntityState.Modified;
-        db.SaveChanges();
+        db.Entry(Updateuser).State = EntityState.Modified;//modify user in the database
+        db.SaveChanges();//commit changes in the database
     }
 
-    public void IncorrectAnswer(string UserMail)
+    public void IncorrectAnswer(string UserMail)//reduce the score of the user on answering a question wrong
     {
         TriviaGameDBContext db = new TriviaGameDBContext();
         User Updateuser = db.Users.Where(u => u.UserMail == UserMail).FirstOrDefault();
         Console.WriteLine("Incorrect answer!");
-        if (Updateuser.Score < 5)
+        Updateuser.Score -= 5;
+        Updateuser.TotalScore -= 5;
+        if (Updateuser.Score < 0)
         {
             Updateuser.Score = 0;
-            Console.WriteLine("Your score is: " + Updateuser.Score);
         }
-
-        else
+        if (Updateuser.TotalScore < 0)
         {
-            Updateuser.Score += -5;
-            Updateuser.TotalScore -= 5;
-            Console.WriteLine("Your score is: " + Updateuser.Score);
+            Updateuser.TotalScore = 0;
         }
-        db.Entry(Updateuser).State = EntityState.Modified;
-        db.SaveChanges();
+        Console.WriteLine("Your score is: " + Updateuser.Score);
+        db.Entry(Updateuser).State = EntityState.Modified;//modify user in the database
+        db.SaveChanges();//commit chnages to the database
     }
-    public void CorrectAnswer(string UserMail)
+    public void CorrectAnswer(string UserMail)//increase the score of the user on ansewering a question correctly
     {
         TriviaGameDBContext db = new TriviaGameDBContext();
         User Updateuser = db.Users.Where(u => u.UserMail == UserMail).FirstOrDefault();
         Console.WriteLine("You are correct!!!");
-        if (Updateuser.Score > 90)
+        if (Updateuser.Score >= 90)
         {
             Updateuser.Score = 100;
+            Updateuser.TotalScore += 10;
             Console.WriteLine("Your score is: " + Updateuser.Score);
             Console.WriteLine();
             Console.WriteLine("You can now add a question");
@@ -145,8 +146,8 @@ public partial class TriviaGameDBContext : DbContext
             Updateuser.TotalScore += 10;
             Console.WriteLine("Your score is: " + Updateuser.Score);
         }
-        db.Entry(Updateuser).State = EntityState.Modified;
-        db.SaveChanges();
+        db.Entry(Updateuser).State = EntityState.Modified;//modify user in database
+        db.SaveChanges();//commit changes to the database
     }
 
 

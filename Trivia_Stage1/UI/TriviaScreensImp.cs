@@ -14,30 +14,14 @@ namespace Trivia_Stage1.UI
 {
     public class TriviaScreensImp:ITriviaScreens
     {
-        public User CurrentPlayer = null;
+        public User CurrentPlayer = null; // stores the current player and all of his attributes
         //Place here any state you would like to keep during the app life time
         //For example, player login details...
 
 
         //Implememnt interface here
-        public bool ShowLogin()
+        public bool ShowLogin() //set the public veriable currentPlayer to the user whoes email and password corespond to an email and password from the database
         {
-
-
-
-
-
-
-
-
-            //TriviaGameDBContext db = new TriviaGameDBContext();
-            //List<User> users = db.Users.ToList();
-            //foreach (User user in users)
-            //{
-            //    Console.WriteLine(user.UserName);
-            //}
-            //Console.ReadLine();
-
 
             try
             {
@@ -48,7 +32,7 @@ namespace Trivia_Stage1.UI
                 Console.Write("Password: ");
                 string password = Console.ReadLine();
                 TriviaGameDBContext db = new TriviaGameDBContext();
-                while (!db.IsEmailExist(email) || !db.ISPasswordExist(password))
+                while (!db.IsEmailExist(email) || !db.ISPasswordExist(password))//checks if current email and password are in the database
                 {
                     Console.WriteLine("your Mail or password are wrong! Please try again:");
                     Console.Write("Mail: ");
@@ -60,7 +44,7 @@ namespace Trivia_Stage1.UI
                 Console.WriteLine("Click 'Enter' to start");
                 Console.ReadKey(true);
 
-                CurrentPlayer = db.Users.Where(u => u.UserMail == email && u.Password == password).FirstOrDefault();
+                CurrentPlayer = db.Users.Where(u => u.UserMail == email && u.Password == password).FirstOrDefault();//set CurrentPlayer to the user attributes
                 return true;
             }
             catch (Exception e)
@@ -71,7 +55,7 @@ namespace Trivia_Stage1.UI
 
 
         }
-        public bool ShowSignup()
+        public bool ShowSignup() //gets user attributes from the current user, adds them to the data base and set the public veriable currentPlayer to the user 
         {
             TriviaGameDBContext db = new TriviaGameDBContext();
             //Logout user if anyone is logged in!
@@ -83,11 +67,11 @@ namespace Trivia_Stage1.UI
             //Loop through inputs until a user/player is created or 
             //user choose to go back to menu
             char c = ' ';
-            while (c != 'B' && c != 'b' && CurrentPlayer == null)
+            while (c != 'B' && c != 'b' && CurrentPlayer == null) // checks if the sighen up is still in progress
             {
                 //Clear screen
                 CleareAndTtile("Signup");
-
+                //gets user veriables from the user
                 Console.Write("Please Type your email: ");
                 string email = Console.ReadLine();
                 while (!IsEmailValid(email))
@@ -118,9 +102,9 @@ namespace Trivia_Stage1.UI
 
                 try
                 {
-                    //TriviaGameDBContext db = new TriviaGameDBContext();
-                    db.SignUp(email, password,name);
-                    
+                    //add the new user to the database
+                    db.SignUp(email, password,name);//in ModelsEX
+                    //makes the current player the newly created player
                     CurrentPlayer = db.Users.Where(u => u.UserMail == email).FirstOrDefault();
                     return true;
                 }
@@ -130,19 +114,7 @@ namespace Trivia_Stage1.UI
                     
                     return false;
                 }
-                /* Create instance of Business Logic and call the signup method
-                 * For example:
-                try
-                {
-                    TriviaDBContext db = new TriviaDBContext();
-                    this.currentyPLayer = db.Signup(email, password, name);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Failed to signup! Email may already exist in DB!");
-                }
                 
-                */
 
                 
             }
@@ -150,9 +122,9 @@ namespace Trivia_Stage1.UI
             return (false);
         }
 
-        public void ShowAddQuestion()
+        public void ShowAddQuestion()//adds questions to the database
         {
-            if (CurrentPlayer.Score < 100)
+            if (CurrentPlayer.Score < 100)//checks if you are allowed to enter a question (your score is bigger then 100)
             {
                 Console.WriteLine("you do not have access\n" +
                     "press any key to preside");
@@ -171,7 +143,7 @@ namespace Trivia_Stage1.UI
                     String? Wanswer3 = "";
 
                     bool inwhile = true;
-                    while (inwhile)
+                    while (inwhile)// add question subject
                     {
                         try
                         {
@@ -191,7 +163,7 @@ namespace Trivia_Stage1.UI
 
                     }
                     inwhile = true;
-                    while (inwhile)
+                    while (inwhile)//add question
                     {
                         Console.WriteLine("Please write your question");
                         question = Console.ReadLine();
@@ -199,49 +171,48 @@ namespace Trivia_Stage1.UI
                     }
                     Console.Clear();
                     inwhile = true;
-                    while (inwhile)
+                    while (inwhile)// add the currect answer
                     {
                         Console.WriteLine("Please write the answer");
                         Canswer = Console.ReadLine();
                         if (Canswer != null) { inwhile = false; }
                     }
                     inwhile = true;
-                    while (inwhile)
+                    while (inwhile)//add wrong answer 1
                     {
                         Console.WriteLine("Please write a wrong answer");
                         Wanswer1 = Console.ReadLine();
                         if (Wanswer1 != null) { inwhile = false; }
                     }
                     inwhile = true;
-                    while (inwhile)
+                    while (inwhile)//add wrong answer 2
                     {
                         Console.WriteLine("Please write a wrong the answer");
                         Wanswer2 = Console.ReadLine();
                         if (Wanswer2 != null) { inwhile = false; }
                     }
                     inwhile = true;
-                    while (inwhile)
+                    while (inwhile)//add wrong answer 3
                     {
                         Console.WriteLine("Please write a wrong the answer");
                         Wanswer3 = Console.ReadLine();
                         if (Wanswer3 != null) { inwhile = false; }
                     }
 
-                    db.addquestion(question, subject, CurrentPlayer.UserId);
-                    int qustionid = 0;
-                    Question que = db.Questions.Where(p => p.Question1 == question).FirstOrDefault();
+                    db.addquestion(question, subject, CurrentPlayer.UserId);// add the question to the database (function in ModelsEX) 
+                    int qustionid = 0; 
+                    Question que = db.Questions.Where(p => p.Question1 == question).FirstOrDefault();//get the id of the question to link the answers to it
                     qustionid = que.QuestionId;
 
-
+                    //add the answers to the database (function in ModelsEX) 
                     db.addanswer(Canswer, qustionid, true);
                     db.addanswer(Wanswer1, qustionid, false);
                     db.addanswer(Wanswer2, qustionid, false);
                     db.addanswer(Wanswer3, qustionid, false);
                     Console.WriteLine("question added");
-                    if (CurrentPlayer.Score >= 100)
-                    {
-                        db.changeScore(CurrentPlayer.UserMail);
-                    }
+
+                    db.changeScore(CurrentPlayer.UserMail);// decreace the score of the user by 100 to make them unable to add another question before answering more of them(function in ModelsEx)
+
                     Console.ReadKey(true);
                 }
                 catch (Exception e)
@@ -255,9 +226,9 @@ namespace Trivia_Stage1.UI
 
         }
 
-        public void ShowPendingQuestions() // completed exept the comit to database
+        public void ShowPendingQuestions() // an admin and master function used to accept newly created questions
         {
-            if (CurrentPlayer.AccessId == 1)
+            if (CurrentPlayer.AccessId == 1) // if the user is not tan admin or a master denied access
             {
                 Console.WriteLine("you do not have access\n" +
                     "press any key to preside");
@@ -266,7 +237,7 @@ namespace Trivia_Stage1.UI
             else
             {
                 TriviaGameDBContext db = new TriviaGameDBContext();
-                List<Question> questions = db.Questions.Where(p => p.StatusId == 2).Include(p => p.Answers).ToList();
+                List<Question> questions = db.Questions.Where(p => p.StatusId == 2).Include(p => p.Answers).ToList();// gets all of the questions that require accepting
 
                 foreach (Question q in questions)
                 {
@@ -293,16 +264,16 @@ namespace Trivia_Stage1.UI
                         answer = Console.ReadLine();
                         if (answer == "a" || answer == "d") { inwhile = false; }
                     }
-                    if (answer == "a")
+                    if (answer == "a")// if the question is accepted change its status the be accepted
                     {
                         q.StatusId = 1;
                     }
-                    else
+                    else// if the question is denide change it status to be denide
                     {
                         q.StatusId = 3;
                     }
 
-                    db.Entry(q).State = EntityState.Modified;
+                    db.Entry(q).State = EntityState.Modified;// commit to the database
                     db.SaveChanges();
 
                 }
@@ -311,48 +282,25 @@ namespace Trivia_Stage1.UI
             }
             
         }
-        public void ShowGame()
-            
-            
-            
-            
-            
-            
-            // for yardem (to fix)
+        public void ShowGame()//A function that shows the questions and answers so you can answer them
         {   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             TriviaGameDBContext db = new TriviaGameDBContext();
             int QuesCount = db.Questions.Count();
             Random rnd = new Random();
             string c = " ";
             int privQues = 0;
-            while (c != "e" && c != "E")
+            while (c != "e" && c != "E")// used to exit the game
             {
                 Console.Clear();
-                int QuesId = rnd.Next(1, QuesCount + 1);
-                while (QuesId == privQues)
+                int QuesId = rnd.Next(1, QuesCount + 1);// gets a random question from the database
+                while (QuesId == privQues)//if the question is the same as the previus one it will chose a new one
                     QuesId = rnd.Next(1, QuesCount + 1);
                 privQues = QuesId;
-                Question? Question = db.Questions.Where(q => q.QuestionId == QuesId).FirstOrDefault();
-                QuestionSubject? QuesSubj = db.QuestionSubjects.Where(s => s.SubjectId == Question.SubjectId).FirstOrDefault();
+                Question? Question = db.Questions.Where(q => q.QuestionId == QuesId).FirstOrDefault();// gets the question from the database
+                QuestionSubject? QuesSubj = db.QuestionSubjects.Where(s => s.SubjectId == Question.SubjectId).FirstOrDefault();// gets the question subject from the database
                 Console.WriteLine("Question subject is: " + QuesSubj.Subject );
                 Console.WriteLine(Question.Question1);
-                List<Answer> answers = db.Answers.Where(a => a.QuestionId == QuesId).ToList();
+                List<Answer> answers = db.Answers.Where(a => a.QuestionId == QuesId).ToList();//get the answers to the question from the database
                 int AnsNum = 1;
                 foreach (Answer answer in answers)
                 {
@@ -360,20 +308,20 @@ namespace Trivia_Stage1.UI
                     AnsNum++;
                 }
                 Console.WriteLine("Input the number of the correct answer");
-                AnsNum = int.Parse(Console.ReadLine());
+                AnsNum = int.Parse(Console.ReadLine());//request user input to answer the question
                 while (AnsNum < 1 || AnsNum > 4)
                 {
                     Console.WriteLine("Invalid answer");
                     AnsNum = int.Parse(Console.ReadLine());
                 }
-                if (answers[AnsNum - 1].TrueFalse == true)
+                if (answers[AnsNum - 1].TrueFalse == true)//if user answerd correctly
                 {
-                   db.CorrectAnswer(CurrentPlayer.UserMail);
+                   db.CorrectAnswer(CurrentPlayer.UserMail);//adds 10 points to the users score and total score (function in ModalsEx)
 
                 }
                 else
                 {
-                    db.IncorrectAnswer(CurrentPlayer.UserMail);
+                    db.IncorrectAnswer(CurrentPlayer.UserMail);//detracts 5 points from the users score and total score (function in ModalsEx)
 
                 }
                 Console.WriteLine("Input e to exit, input anything else to continue");
@@ -382,25 +330,25 @@ namespace Trivia_Stage1.UI
            
             
         }
-        public void ShowProfile()
+        public void ShowProfile()//allow a user to view and change his profile
         {
             Console.Clear();
             TriviaGameDBContext db = new TriviaGameDBContext();
-            AccessLv PlayerLevel = db.AccessLvs.Where(l => l.AccessId == CurrentPlayer.AccessId).FirstOrDefault();
-            if (CurrentPlayer == null)
+            AccessLv PlayerLevel = db.AccessLvs.Where(l => l.AccessId == CurrentPlayer.AccessId).FirstOrDefault();//gets the player access level
+            if (CurrentPlayer == null)//if the user is not logged in
             {
                 Console.WriteLine("Please Login First...");
             }
             else
             {
-                Console.WriteLine("Hello " + CurrentPlayer.UserName + "!" );
+                Console.WriteLine("Hello " + CurrentPlayer.UserName + "!" );//shows the username
                 Console.WriteLine("---------------------------------------------------------------------");
-                Console.WriteLine("Your Mail is: " + CurrentPlayer.UserMail);
-                Console.WriteLine("Your Password is: " + CurrentPlayer.Password);
-                Console.WriteLine("You are in " + PlayerLevel.AccessLevel + " level");
-                Console.WriteLine("Your score is: " + CurrentPlayer.Score);
-                Console.WriteLine("Your Total score is: " + CurrentPlayer.TotalScore);
-                Console.WriteLine("You added " + CurrentPlayer.QuastionsAdded + " questions");
+                Console.WriteLine("Your Mail is: " + CurrentPlayer.UserMail);//shows the user's mail
+                Console.WriteLine("Your Password is: " + CurrentPlayer.Password);//shows the user's password
+                Console.WriteLine("You are in " + PlayerLevel.AccessLevel + " level");//shows the user's access leve;
+                Console.WriteLine("Your score is: " + CurrentPlayer.Score);//shows the user's current score
+                Console.WriteLine("Your Total score is: " + CurrentPlayer.TotalScore);//shows the user's total score
+                Console.WriteLine("You added " + CurrentPlayer.QuastionsAdded + " questions");//shows how many questions the user added
                 Console.WriteLine("---------------------------------------------------------------------");
                 Console.WriteLine("If you want to Update your data enter Y if else enter N");
                 string YesOrNo = Console.ReadLine();
@@ -419,7 +367,7 @@ namespace Trivia_Stage1.UI
                     int UpdateChoice = int.Parse(Console.ReadLine());
                     switch (UpdateChoice)
                     {
-                        case 1:
+                        case 1://updating name
                             Console.WriteLine("Enter your new name: ");
                                 string NewName = Console.ReadLine();
                                 while (!IsNameValid(NewName))
@@ -427,14 +375,14 @@ namespace Trivia_Stage1.UI
                                     Console.Write("name must be at least 3 characters! Please try again: ");
                                      NewName = Console.ReadLine();
                                 }
-                                db.changeName(NewName, CurrentPlayer.UserMail);
-                                CurrentPlayer = db.Users.Where(u => u.UserMail == CurrentPlayer.UserMail).FirstOrDefault();
+                                db.changeName(NewName, CurrentPlayer.UserMail);//changes the user's username in the database(function in ModelsEx)
+                                CurrentPlayer = db.Users.Where(u => u.UserMail == CurrentPlayer.UserMail).FirstOrDefault();//chenges the current player's name in the game
                                 Console.WriteLine("change name completed! new name " + CurrentPlayer.UserName);
 
                                 ShowProfile();
                                 Exit = false;
                                 break;
-                        case 2:
+                        case 2://updating mail
                                 Console.WriteLine("Enter your new Mail: ");
                                 string NewMail = Console.ReadLine();
                                 while (!IsEmailValid(NewMail))
@@ -442,14 +390,14 @@ namespace Trivia_Stage1.UI
                                     Console.Write("Bad Email Format! Please try again:");
                                     NewMail = Console.ReadLine();
                                 }
-                                db.changeMail(NewMail, CurrentPlayer.UserMail);
-                                CurrentPlayer = db.Users.Where(u => u.UserMail == NewMail).FirstOrDefault();
+                                db.changeMail(NewMail, CurrentPlayer.UserMail)//changes the user's mail in the database(function in ModelsEx)
+                                CurrentPlayer = db.Users.Where(u => u.UserMail == NewMail).FirstOrDefault();//changes the user's mail in the game
                                 Console.WriteLine("change mail completed! new mail " + CurrentPlayer.UserMail);
 
                                 ShowProfile();
                                 Exit = false;
                                 break;
-                        case 3:
+                        case 3://updating password
                                 Console.WriteLine("Enter your new password: ");
                                 string NewPassword = Console.ReadLine();
                                 while (!IsPasswordValid(NewPassword))
@@ -457,14 +405,14 @@ namespace Trivia_Stage1.UI
                                     Console.Write("password must be at least 4 characters! Please try again: ");
                                     NewPassword = Console.ReadLine();
                                 }
-                                db.changePassword(NewPassword, CurrentPlayer.UserMail);
-                                CurrentPlayer = db.Users.Where(u => u.UserMail == CurrentPlayer.UserMail).FirstOrDefault();
+                                db.changePassword(NewPassword, CurrentPlayer.UserMail);//changes the user's password in the database(function in ModelsEx)
+                                CurrentPlayer = db.Users.Where(u => u.UserMail == CurrentPlayer.UserMail).FirstOrDefault();//changes the user's password in the game
                                 Console.WriteLine("change password completed! new password " + CurrentPlayer.UserMail);
 
                                 ShowProfile();
                                 Exit = false;
                                 break;
-                        case 4:
+                        case 4://exit show Profile
                                 Exit = false;
                                 break;
                             default: 
