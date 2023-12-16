@@ -152,7 +152,7 @@ namespace Trivia_Stage1.UI
 
         public void ShowAddQuestion()
         {
-            if (CurrentPlayer.AccessId == 1 || CurrentPlayer.Score < 100)
+            if (CurrentPlayer.Score < 100)
             {
                 Console.WriteLine("you do not have access\n" +
                     "press any key to preside");
@@ -319,9 +319,9 @@ namespace Trivia_Stage1.UI
             
             
             // for yardem (to fix)
-        {   //make it so a question cant appear multipule times per attempt
-            //make it so after you get to 100 points something happends (prompt to add question)
-            //clear the console after each question so it doesent look like shit
+        {   
+
+
 
 
 
@@ -340,11 +340,17 @@ namespace Trivia_Stage1.UI
             int QuesCount = db.Questions.Count();
             Random rnd = new Random();
             string c = " ";
+            int privQues = 0;
             while (c != "e" && c != "E")
             {
+                Console.Clear();
                 int QuesId = rnd.Next(1, QuesCount + 1);
+                while (QuesId == privQues)
+                    QuesId = rnd.Next(1, QuesCount + 1);
+                privQues = QuesId;
                 Question? Question = db.Questions.Where(q => q.QuestionId == QuesId).FirstOrDefault();
-                Console.WriteLine("Question subject is: " + Question.Subject);
+                QuestionSubject? QuesSubj = db.QuestionSubjects.Where(s => s.SubjectId == Question.SubjectId).FirstOrDefault();
+                Console.WriteLine("Question subject is: " + QuesSubj.Subject );
                 Console.WriteLine(Question.Question1);
                 List<Answer> answers = db.Answers.Where(a => a.QuestionId == QuesId).ToList();
                 int AnsNum = 1;
@@ -362,35 +368,12 @@ namespace Trivia_Stage1.UI
                 }
                 if (answers[AnsNum - 1].TrueFalse == true)
                 {
-                    Console.WriteLine("You are correct!!!");
-                    if (CurrentPlayer.Score > 90)
-                    {
-                        CurrentPlayer.Score = 100;
-                        Console.WriteLine("Your score is: " + CurrentPlayer.Score);
-                        Console.WriteLine("You can now add a question");
-                    }
-
-                    else
-                    {
-                        CurrentPlayer.Score += 10;
-                        Console.WriteLine("Your score is: " + CurrentPlayer.Score);
-                    }
+                   db.CorrectAnswer(CurrentPlayer.UserMail);
 
                 }
                 else
                 {
-                    Console.WriteLine("Incorrect answer!");
-                    if (CurrentPlayer.Score < 5)
-                    {
-                        CurrentPlayer.Score = 0;
-                        Console.WriteLine("Your score is: " + CurrentPlayer.Score);
-                    }
-
-                    else
-                    {
-                        CurrentPlayer.Score += -5;
-                        Console.WriteLine("Your score is: " + CurrentPlayer.Score);
-                    }
+                    db.IncorrectAnswer(CurrentPlayer.UserMail);
 
                 }
                 Console.WriteLine("Input e to exit, input anything else to continue");

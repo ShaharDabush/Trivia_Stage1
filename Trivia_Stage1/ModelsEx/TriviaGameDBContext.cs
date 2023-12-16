@@ -105,6 +105,49 @@ public partial class TriviaGameDBContext : DbContext
         db.SaveChanges();
     }
 
+    public void IncorrectAnswer(string UserMail)
+    {
+        TriviaGameDBContext db = new TriviaGameDBContext();
+        User Updateuser = db.Users.Where(u => u.UserMail == UserMail).FirstOrDefault();
+        Console.WriteLine("Incorrect answer!");
+        if (Updateuser.Score < 5)
+        {
+            Updateuser.Score = 0;
+            Console.WriteLine("Your score is: " + Updateuser.Score);
+        }
+
+        else
+        {
+            Updateuser.Score += -5;
+            Updateuser.TotalScore -= 5;
+            Console.WriteLine("Your score is: " + Updateuser.Score);
+        }
+        db.Entry(Updateuser).State = EntityState.Modified;
+        db.SaveChanges();
+    }
+    public void CorrectAnswer(string UserMail)
+    {
+        TriviaGameDBContext db = new TriviaGameDBContext();
+        User Updateuser = db.Users.Where(u => u.UserMail == UserMail).FirstOrDefault();
+        Console.WriteLine("You are correct!!!");
+        if (Updateuser.Score > 90)
+        {
+            Updateuser.Score = 100;
+            Console.WriteLine("Your score is: " + Updateuser.Score);
+            Console.WriteLine();
+            Console.WriteLine("You can now add a question");
+            Console.WriteLine();
+        }
+
+        else
+        {
+            Updateuser.Score += 10;
+            Updateuser.TotalScore += 10;
+            Console.WriteLine("Your score is: " + Updateuser.Score);
+        }
+        db.Entry(Updateuser).State = EntityState.Modified;
+        db.SaveChanges();
+    }
 
 
 }
